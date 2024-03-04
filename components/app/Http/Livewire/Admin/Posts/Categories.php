@@ -1,11 +1,11 @@
-?php
+<?php
 
-namespace App\Http\Livewire\Admin\Tools;
+namespace App\Http\Livewire\Admin\Posts;
 
 use Livewire\Component;
 use Auth;
 use DateTime;
-use App\Models\Admin\PageCategory;
+use App\Models\Admin\PostCategory;
 use App\Models\Admin\Page;
 use GrahamCampbell\Security\Facades\Security;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -14,6 +14,7 @@ class Categories extends Component
 {
 
     public $title;
+    public $category_name;
     public $description;
     public $align = 'start';
     public $background = 'bg-white';
@@ -24,7 +25,7 @@ class Categories extends Component
 
     public function mount()
     {
-        $this->categories = PageCategory::orderBy('sort','ASC')->get()->toArray();
+        $this->categories = PostCategory::get()->toArray();
     }
 
     public function render()
@@ -33,10 +34,10 @@ class Categories extends Component
         $title = __('Tool Categories') . ' ' . env('APP_SEPARATOR') . ' ' . env('APP_NAME');
         SEOMeta::setTitle($title);
 
-        return view('livewire.admin.tools.categories')->layout('layouts.admin', [
+        return view('livewire.admin.posts.categories')->layout('layouts.admin', [
             'breadcrumbs' => [
                 ['title' => __( 'Admin' ), 'url' => route('admin.dashboard.index')],
-                ['title' => __( 'Categories' ), 'url' => route('admin.tools.categories.index')]
+                ['title' => __( 'Categories' ), 'url' => route('admin.posts.categories.index')]
             ]
         ]);
     }
@@ -48,7 +49,7 @@ class Categories extends Component
     **/
     private function resetInputFields()
     {
-        $this->reset(['title', 'description', 'align', 'background', 'cateID']);
+        $this->reset(['category_name']);
     }
 
     /**
@@ -62,24 +63,18 @@ class Categories extends Component
 
             if ( $this->cateID != null ) {
 
-                $cate              = PageCategory::findOrFail($this->cateID);
-                $cate->title       = Security::clean( strip_tags($this->title) );
-                $cate->description = Security::clean( strip_tags($this->description) );
-                $cate->align       = Security::clean( strip_tags($this->align) );
-                $cate->background  = Security::clean( strip_tags($this->background) );
-                $cate->updated_at  = new DateTime();
+                $cate                = PostCategory::findOrFail($this->cateID);
+                $cate->category_name = Security::clean( strip_tags($this->category_name) );
+                $cate->updated_at    = new DateTime();
                 $cate->save();
 
                 $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Data updated successfully!')]);
 
             } else{
 
-                $cate              = new PageCategory;
-                $cate->title       = Security::clean( strip_tags($this->title) );
-                $cate->description = Security::clean( strip_tags($this->description) );
-                $cate->align       = Security::clean( strip_tags($this->align) );
-                $cate->background  = Security::clean( strip_tags($this->background) );
-                $cate->created_at  = new DateTime();
+                $cate                = new PostCategory;
+                $cate->category_name = Security::clean( strip_tags($this->category_name) );
+                $cate->created_at    = new DateTime();
                 $cate->save();
                 $this->dispatchBrowserEvent('alert', ['type' => 'success', 'message' => __('Data created successfully!')]);
             }
@@ -103,11 +98,8 @@ class Categories extends Component
         try {
 
             $this->cateID      = $id;
-            $cate              = PageCategory::findOrFail($id);
-            $this->title       = Security::clean( strip_tags($cate->title) );
-            $this->description = Security::clean( strip_tags($cate->description) );
-            $this->align       = Security::clean( strip_tags($cate->align) );
-            $this->background  = Security::clean( strip_tags($cate->background) );
+            $cate              = PostCategory::findOrFail($id);
+            $this->category_name       = Security::clean( strip_tags($cate->category_name) );
 
         } catch (\Exception $e) {
            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __($e->getMessage()) ]);
@@ -124,10 +116,10 @@ class Categories extends Component
     {
 
         try {
-            $cate = PageCategory::findOrFail($id);
+            $cate = PostCategory::findOrFail($id);
 
             $cate->delete($id);
-            return redirect()->route('admin.tools.categories.index');
+            return redirect()->route('admin.posts.categories.index');
 
         } catch (\Exception $e) {
            $this->dispatchBrowserEvent('alert', ['type' => 'error', 'message' => __($e->getMessage()) ]);
@@ -172,7 +164,7 @@ class Categories extends Component
             foreach ($data as $row) {
 
                 $i++;
-                $cate             = PageCategory::findOrFail($row['id']);
+                $cate             = PostCategory::findOrFail($row['id']);
                 $cate->sort       = $i;
                 $cate->updated_at = new DateTime();
                 $cate->save();

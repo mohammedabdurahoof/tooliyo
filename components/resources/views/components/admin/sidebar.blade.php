@@ -48,13 +48,33 @@
                     </a>
                 </li>
 
-                <li class="nav-item {{ Route::is('admin.posts.index', 'admin.posts.translations.index', 'admin.posts.translations.create', 'admin.posts.translations.edit') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ Route::is('admin.posts.index', 'admin.posts.translations.index', 'admin.posts.translations.create', 'admin.posts.translations.edit') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.posts.index') }}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4"></path> <line x1="13.5" y1="6.5" x2="17.5" y2="10.5"></line> </svg>
                         </span>
                         <span class="nav-link-title">{{ __('Posts') }}</span>
                     </a>
+                </li> --}}
+
+                <li class="nav-item {{ Route::is('admin.posts.index', 'admin.posts.translations.index', 'admin.posts.translations.create', 'admin.posts.translations.edit','admin.posts.categories.index') ? 'active' : '' }}">
+                    <a class="nav-link {{ Route::is('admin.posts.index', 'admin.posts.categories.index') ? 'show' : '' }}" data-bs-toggle="collapse" href="#posts" role="button" aria-expanded="false" aria-controls="posts">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><line x1="9" y1="9" x2="10" y2="9" /><line x1="9" y1="13" x2="15" y2="13" /><line x1="9" y1="17" x2="15" y2="17" /></svg>
+                        </span>
+                        <span class="nav-link-title">{{ __('Posts') }}</span>
+                    </a>
+
+                    <div id="posts" class="multi-collapse collapse {{ Route::is('admin.posts.index', 'admin.posts.translations.index', 'admin.posts.translations.create', 'admin.posts.translations.edit','admin.posts.categories.index') ? 'show' : '' }}">
+
+                        <a class="nav-link {{ Route::is('admin.posts.index', 'admin.posts.translations.index', 'admin.posts.translations.create', 'admin.posts.translations.edit') ? 'active' : '' }}" href="{{ route('admin.posts.index') }}">
+                            {{ __('All Posts') }}
+                        </a>
+
+                        <a class="nav-link {{ Route::is('admin.posts.categories.index') ? 'active' : '' }}" href="{{ route('admin.posts.categories.index') }}">
+                            {{ __('Categories') }}
+                        </a>
+                    </div>
                 </li>
 
                <li class="nav-item {{ Route::is('admin.pages.index', 'admin.pages.translations.index', 'admin.pages.translations.create', 'admin.pages.translations.edit', 'admin.pages.authentication.index') ? 'active' : '' }}">

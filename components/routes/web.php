@@ -33,6 +33,7 @@ use App\Http\Livewire\Admin\Posts\Index as AdminPostIndex;
 use App\Http\Livewire\Admin\Posts\Translations\Index as AdminPostTranslationsIndex;
 use App\Http\Livewire\Admin\Posts\Translations\Create as AdminPostTranslationsCreate;
 use App\Http\Livewire\Admin\Posts\Translations\Edit as AdminPostTranslationsEdit;
+use App\Http\Livewire\Admin\Posts\Categories as AdminPostCategoriesIndex;
 
 use App\Http\Livewire\Admin\Pages\Index as AdminPagesIndex;
 use App\Http\Livewire\Admin\Pages\Translations\Index as AdminPagesTranslationsIndex;
@@ -295,6 +296,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'isadmin', 'localize
 			Route::get('/{page_id}/translations', AdminPostTranslationsIndex::class)->name('admin.posts.translations.index');
 			Route::get('/{page_id}/translations/{locale}/create', AdminPostTranslationsCreate::class)->name('admin.posts.translations.create');
 			Route::get('/translations/{trans_id}/edit', AdminPostTranslationsEdit::class)->name('admin.posts.translations.edit');
+			Route::get('/categories', AdminPostCategoriesIndex::class)->name('admin.posts.categories.index');
 		});
 
 		Route::group(['prefix' => 'pages'], function() {
