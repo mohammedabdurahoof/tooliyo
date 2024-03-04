@@ -290,6 +290,7 @@ table.settings > tbody > tr > td{
 #indexing .nav-link,
 #tools .nav-link,
 #pages .nav-link,
+#posts .nav-link,
 #theme-settings .nav-link{
     padding-left: 3.25rem !important;
 } 
@@ -300,6 +301,8 @@ table.settings > tbody > tr > td{
 #tools .nav-link:hover,
 #pages .nav-link:focus, 
 #pages .nav-link:hover,
+#posts .nav-link:focus, 
+#posts .nav-link:hover,
 #theme-settings .nav-link:focus, 
 #theme-settings .nav-link:hover {
     color: inherit;
@@ -313,6 +316,8 @@ table.settings > tbody > tr > td{
 #tools .nav-link:active,
 #pages .nav-link.active, 
 #pages .nav-link:active,
+#posts .nav-link.active, 
+#posts .nav-link:active,
 #theme-settings .nav-link.active, 
 #theme-settings .nav-link:active {
     color: #206bc4;
