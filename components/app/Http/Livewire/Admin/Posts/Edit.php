@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Posts;
 use Livewire\Component;
 use DateTime;
 use App\Models\Admin\Page;
+use App\Models\Admin\PostCategory;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use GrahamCampbell\Security\Facades\Security;
 
@@ -13,8 +14,16 @@ class Edit extends Component
     public $page_id;
     public $slug;
     public $featured_image;
+    public $target;
+    public $post_category;
+    public $categories = [];
 
     protected $listeners = ['onSetFeaturedImage', 'sendDataEditPost' => 'onDataEditPost'];
+
+    public function mount()
+    {
+        $this->categories = PostCategory::get()->toArray();
+    }
 
     public function render()
     {
@@ -32,6 +41,8 @@ class Edit extends Component
         $this->slug           = $page->slug;
         $this->featured_image = $page->featured_image;
         $this->target         = $page->target;
+        $this->post_category    = $page->post_category;
+
     }
 
     /**
@@ -80,11 +91,12 @@ class Edit extends Component
         ]);
 
         try {
-
+            
             $page                 = Page::findOrFail($id);
             $page->slug           = SlugService::createSlug(Page::class, 'slug', $this->slug);
             $page->type           = 'post';
             $page->featured_image = strip_tags($this->featured_image);
+            $page->post_category    = $this->post_category;
             $page->target         = Security::clean( strip_tags($this->target) );
             $page->updated_at     = new DateTime();
             $page->save();
